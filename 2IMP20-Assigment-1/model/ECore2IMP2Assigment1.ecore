@@ -4,30 +4,66 @@
     nsPrefix="ECore2IMP2Assigment1">
   <eClassifiers xsi:type="ecore:EClass" name="BoulderingWall">
     <eStructuralFeatures xsi:type="ecore:EReference" name="holds" upperBound="-1"
-        eType="#//Hold"/>
+        eType="#//Hold" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="routes" upperBound="-1"
         eType="#//Route" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="volumes" lowerBound="1"
-        upperBound="-1" eType="#//Volume"/>
+        upperBound="-1" eType="#//Volume" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Hold"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hold">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pos" lowerBound="1" eType="#//Position"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape_identifier" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rotation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colours" lowerBound="1"
+        upperBound="-1" eType="#//Colour"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start_hold" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="end_hold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Route"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Volume" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Volume" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="depth" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Circle" eSuperTypes="#//Volume">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="depth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pos" lowerBound="1" eType="#//Position"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pos" lowerBound="1" eType="#//Position"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="side_holds" upperBound="-1"
+        eType="#//Hold"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="front_holds" upperBound="-1"
+        eType="#//Hold"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Triangle" eSuperTypes="#//Volume">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="depth" lowerBound="1"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pos" lowerBound="1" eType="#//Position"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pos" lowerBound="1" eType="#//Position"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="corners" lowerBound="1"
-        upperBound="3" eType="#//Position"/>
+        upperBound="3" eType="#//Position" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extrusion" lowerBound="1"
-        eType="#//Position"/>
+        eType="#//Position" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left_holds" upperBound="-1"
+        eType="#//Hold"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right_holds" upperBound="-1"
+        eType="#//Hold"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bottom_holds" upperBound="-1"
+        eType="#//Hold"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Position">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Colour">
+    <eLiterals name="red"/>
+    <eLiterals name="blue" value="1"/>
+    <eLiterals name="green" value="2"/>
+    <eLiterals name="yellow" value="3"/>
+    <eLiterals name="black" value="4"/>
+    <eLiterals name="brown" value="5"/>
+    <eLiterals name="white" value="6"/>
   </eClassifiers>
 </ecore:EPackage>
