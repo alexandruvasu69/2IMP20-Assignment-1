@@ -26,7 +26,15 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="end_hold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Route"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Route">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grade" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grid_base_point" lowerBound="1"
+        eType="#//Position" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="holds" lowerBound="2" upperBound="-1"
+        eType="#//RouteStep" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Volume" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="depth" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
@@ -65,5 +73,13 @@
     <eLiterals name="black" value="4"/>
     <eLiterals name="brown" value="5"/>
     <eLiterals name="white" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteStep" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HoldStep" eSuperTypes="#//RouteStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hold" lowerBound="1" eType="#//Hold"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SplitStep" eSuperTypes="#//RouteStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//Hold"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//Hold"/>
   </eClassifiers>
 </ecore:EPackage>

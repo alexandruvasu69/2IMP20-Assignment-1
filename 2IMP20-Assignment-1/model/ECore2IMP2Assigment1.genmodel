@@ -34,7 +34,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ECore2IMP2Assigment1.ecore#//Hold/start_hold"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ECore2IMP2Assigment1.ecore#//Hold/end_hold"/>
     </genClasses>
-    <genClasses ecoreClass="ECore2IMP2Assigment1.ecore#//Route"/>
+    <genClasses ecoreClass="ECore2IMP2Assigment1.ecore#//Route">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ECore2IMP2Assigment1.ecore#//Route/grade"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ECore2IMP2Assigment1.ecore#//Route/identifier"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference ECore2IMP2Assigment1.ecore#//Route/grid_base_point"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference ECore2IMP2Assigment1.ecore#//Route/holds"/>
+    </genClasses>
     <genClasses ecoreClass="ECore2IMP2Assigment1.ecore#//Volume">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ECore2IMP2Assigment1.ecore#//Volume/depth"/>
     </genClasses>
@@ -55,6 +60,14 @@
     <genClasses ecoreClass="ECore2IMP2Assigment1.ecore#//Position">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ECore2IMP2Assigment1.ecore#//Position/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ECore2IMP2Assigment1.ecore#//Position/y"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ECore2IMP2Assigment1.ecore#//RouteStep"/>
+    <genClasses ecoreClass="ECore2IMP2Assigment1.ecore#//HoldStep">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ECore2IMP2Assigment1.ecore#//HoldStep/hold"/>
+    </genClasses>
+    <genClasses ecoreClass="ECore2IMP2Assigment1.ecore#//SplitStep">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ECore2IMP2Assigment1.ecore#//SplitStep/left"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ECore2IMP2Assigment1.ecore#//SplitStep/right"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
