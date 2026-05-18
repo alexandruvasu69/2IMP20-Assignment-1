@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>2IMP20-Transformation</name>
+	<comment></comment>
+	<projects>
+		<project>2IMP20-Assigment-1</project>
+		<project>nl.tue.dsldesign.turtle</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.m2m.qvt.oml.project.QVTOBuilder</name>
+			<arguments>
+				<dictionary>
+					<key>src_container</key>
+					<value>transforms</value>
+				</dictionary>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.m2m.qvt.oml.project.QVTONature</nature>
+	</natures>
+</projectDescription>

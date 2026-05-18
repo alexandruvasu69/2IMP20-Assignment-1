@@ -1,0 +1,222 @@
+modeltype LABOUR uses "http://www.example.org/ECore2IMP2Assigment1";
+modeltype TURTLE uses "http://www.example.org/turtle";
+
+transformation Labour2Turtle(in src : LABOUR, out dst : TURTLE);
+
+main() {
+    src.rootObjects()[BoulderingWall]->map wallToProgram();
+}
+
+mapping BoulderingWall::wallToProgram() : Program {
+    self.routes->forEach(r) {
+    	statements += r.routeToStatements();
+    };
+}
+
+helper Position::posToAssignments() : Sequence(Assignment) {
+	return Sequence {
+		object Assignment {
+			_var := "x";
+			expr := object RealConst {
+				value := self.x;
+			}
+		},
+		object Assignment {
+			_var := "y";
+			expr := object RealConst {
+				value := self.y;
+			}
+		}
+	}
+}
+
+helper Route::routeToStatements() : Sequence(Statement) {
+	var res : Sequence(Statement) := Sequence {};
+	
+	res += self.grid_base_point.posToAssignments();
+	if (self.hasSplit()) {
+		self.getLeftPath()->forEach(h) {
+			res += h.holdToStatements();
+		};
+		self.getRightPath()->forEach(h) {
+			res += h.holdToStatements();
+		}
+	} else {
+		self.getLeftPath()->forEach(h) {
+			res += h.holdToStatements();
+		}
+	};
+	
+	return res;
+}
+
+helper Route::getLeftPath() : Sequence(Hold) {
+    var path : Sequence(Hold) := Sequence {};
+
+    self.holds->forEach(step) {
+        if (step.oclIsKindOf(HoldStep)) {
+            path += step.oclAsType(HoldStep).hold;
+        } else {
+            path += step.oclAsType(SplitStep).left;
+        };
+    };
+
+    return path;
+}
+
+helper Route::getRightPath() : Sequence(Hold) {
+    var path : Sequence(Hold) := Sequence {};
+
+    self.holds->forEach(step) {
+        if (step.oclIsKindOf(HoldStep)) {
+            path += step.oclAsType(HoldStep).hold;
+        } else {
+            path += step.oclAsType(SplitStep).right;
+        };
+    };
+
+    return path;
+}
+
+helper Route::hasSplit() : Boolean {
+    return self.holds->exists(step | step.oclIsKindOf(SplitStep));
+}
+
+helper Hold::holdToStatements() : Sequence(Statement) {
+	var res : Sequence(Statement) := Sequence {};
+	
+	res += self.assignDVec();
+	res += self.assignAngle();
+	res += object TurnToZero {};
+	res += self.rotateWithAngle();
+	res += self.moveWithDistance();
+	res += self.pos.posToAssignments();
+	
+	return res;
+}
+
+
+helper Hold::moveWithDistance() : Sequence(Statement) {
+	var res : Sequence(Statement) := Sequence {};
+	
+	res += object Move {
+		expr := self.distance();
+	};
+	
+	return res;
+}
+
+helper Hold::rotateWithAngle() : Sequence(Statement) {
+	var res : Sequence(Statement) := Sequence {};
+	
+	res += object If {
+		cond := object Binary {
+			operation := Operation::LT;
+			
+			left := object VarRef {
+				_var := "theta";
+			};
+			
+			right := object RealConst {
+				value := 0;
+			}
+		};
+		
+		_then := object TurnRight {
+			expr := object Abs {
+			    expr := object VarRef {
+			        _var := "theta";
+			    };
+			};
+		};
+		
+		_else := object TurnLeft {
+			expr := object Abs {
+			    expr := object VarRef {
+			        _var := "theta";
+			    };
+			};
+		}
+	};
+	
+	return res;
+}
+
+helper Hold::assignAngle() : Assignment {
+	return object Assignment {
+		_var := "theta";
+		expr := object Arctan {
+			expr := self.mapToTan();
+		}
+	}
+}
+
+helper Hold::mapToTan() : Binary {
+	return object Binary {
+		operation := Operation::DIVISION;
+		
+		left := object VarRef {
+			_var := "dx";
+		};
+		
+		right := object VarRef {
+			_var := "dy";
+		} 
+	}
+}
+
+helper Hold::assignDVec() : Sequence(Statement) {
+	var res : Sequence(Statement) := Sequence {};
+	
+	res += object Assignment {
+		_var := "dx";
+		expr := object Binary {
+			operation := Operation::SUBTRACT;
+			
+			left := object RealConst {
+				value := self.pos.x;
+			};
+			
+			right := object VarRef {
+				_var := "x";
+			}
+		}
+	};
+	
+	res += object Assignment {
+		_var := "dy";
+		expr := object Binary {
+			operation := Operation::SUBTRACT;
+			
+			left := object RealConst {
+				value := self.pos.y;
+			};
+			
+			right := object VarRef {
+				_var := "y";
+			}
+		}
+	};
+	
+	return res;
+}
+
+helper Hold::distance() : Sqrt {
+    return object Sqrt {
+		expr := object Binary {
+			operation := Operation::ADD;
+			
+			left := object Sqr {
+				expr := object VarRef {
+					_var := "dx";
+				}
+			};
+			
+			right := object Sqr {
+				expr := object VarRef {
+					_var := "dy";
+				}
+			};
+		}
+	} 
+}
