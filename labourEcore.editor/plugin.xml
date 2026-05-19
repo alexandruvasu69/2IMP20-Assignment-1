@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated labour -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="labour.labour.presentation.labourModelWizardID"
+            name="%_UI_labourModelWizard_label"
+            class="labour.labour.presentation.labourModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/labourModelFile.gif">
+         <description>%_UI_labourModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated labour -->
+      <editor
+            id="labour.labour.presentation.labourEditorID"
+            name="%_UI_labourEditor_label"
+            icon="icons/full/obj16/labourModelFile.gif"
+            extensions="labour"
+            class="labour.labour.presentation.labourEditor"
+            contributorClass="labour.labour.presentation.labourActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

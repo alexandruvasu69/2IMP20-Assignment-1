@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<labour:BoulderingWall xmi:version="2.0" 
+    xmlns:xmi="http://www.omg.org/XMI" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:labour="http://www.example.org/labour" 
+    xsi:schemaLocation="http://www.example.org/labour labour.ecore" 
+    ID="UltimateTestWall">
+
+  <!-- Holds directly on the wall -->
+  <holds identifier="h1_start" shape_identifier="jug" colours="green" start_hold="1">
+    <pos xsi:type="labour:CartesianPosition" x="0" y="0"/>
+  </holds>
+  <holds identifier="h2_mid" shape_identifier="crimp" colours="green">
+    <pos xsi:type="labour:CartesianPosition" x="0" y="10"/>
+  </holds>
+  <holds identifier="h5_end" shape_identifier="jug" colours="green" end_hold="true">
+    <pos xsi:type="labour:CartesianPosition" x="0" y="40"/>
+  </holds>
+
+  <!-- Volumes containing holds -->
+  <volumes xsi:type="labour:Circle" depth="5" radius="15">
+    <pos xsi:type="labour:CartesianPosition" x="-10" y="20"/>
+    <!-- Testing the AngularPosition subclass on side_holds -->
+    <side_holds identifier="h_angular" shape_identifier="sloper" colours="red">
+      <pos xsi:type="labour:AngularPosition" angle="45"/>
+    </side_holds>
+    <front_holds identifier="h3_left" shape_identifier="crimp" colours="green" rotation="45">
+      <pos xsi:type="labour:CartesianPosition" x="-10" y="20"/>
+    </front_holds>
+  </volumes>
+
+  <volumes xsi:type="labour:Triangle" depth="15">
+    <pos xsi:type="labour:CartesianPosition" x="10" y="20"/>
+    <corners xsi:type="labour:CartesianPosition" x="5" y="15"/>
+    <corners xsi:type="labour:CartesianPosition" x="15" y="15"/>
+    <corners xsi:type="labour:CartesianPosition" x="10" y="25"/>
+    <extrusion xsi:type="labour:CartesianPosition" x="10" y="20"/>
+    <left_holds identifier="h4_right" shape_identifier="pinch" colours="green">
+      <pos xsi:type="labour:CartesianPosition" x="10" y="20"/>
+    </left_holds>
+  </volumes>
+
+  <!-- The Route to test splitting and merging -->
+  <routes grade="7A" identifier="SplitAndMergeTest">
+    <grid_base_point xsi:type="labour:CartesianPosition" x="0" y="0"/>
+    
+    <holds xsi:type="labour:HoldStep" hold="h1_start"/>
+    <holds xsi:type="labour:HoldStep" hold="h2_mid"/>
+    <holds xsi:type="labour:SplitStep" left="h3_left" right="h4_right"/>
+    <holds xsi:type="labour:HoldStep" hold="h5_end"/>
+  </routes>
+  
+</labour:BoulderingWall>

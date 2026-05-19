@@ -1,16 +1,19 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: nl.tue.dsldesign.turtle;singleton:=true
-Automatic-Module-Name: nl.tue.dsldesign.turtle
+Bundle-SymbolicName: labour;singleton:=true
+Automatic-Module-Name: labour
 Bundle-Version: 0.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: nl.tue.dsldesign.turtle,
- nl.tue.dsldesign.turtle.impl,
- nl.tue.dsldesign.turtle.util
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Export-Package: labour.labour,
+ labour.labour.impl,
+ labour.labour.util,
+ labour.labour,
+ labour.labour.impl,
+ labour.labour.util
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy

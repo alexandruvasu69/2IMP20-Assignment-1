@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/labourEcore/src-gen" creationIcons="false" editDirectory="/labourEcore.edit/src-gen"
+    editorDirectory="/labourEcore.editor/src-gen" modelPluginID="labourEcore" modelName="labour"
+    editPluginClass="labour.provider.labourEditPlugin" editorPluginClass="labour.presentation.labourEditorPlugin"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
+    testSuiteClass="labour.tests.labourAllTests" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="21.0" copyrightFields="false" editPluginID="labourEcore.edit"
+    editorPluginID="labourEcore.editor" operationReflection="true" importOrganizing="true">
+  <foreignModel>labour.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="labour" basePackage="labour" disposableProviderFactory="true"
+      ecorePackage="labour.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="labour.ecore#//Colour">
+      <genEnumLiterals ecoreEnumLiteral="labour.ecore#//Colour/red"/>
+      <genEnumLiterals ecoreEnumLiteral="labour.ecore#//Colour/blue"/>
+      <genEnumLiterals ecoreEnumLiteral="labour.ecore#//Colour/green"/>
+      <genEnumLiterals ecoreEnumLiteral="labour.ecore#//Colour/yellow"/>
+      <genEnumLiterals ecoreEnumLiteral="labour.ecore#//Colour/black"/>
+      <genEnumLiterals ecoreEnumLiteral="labour.ecore#//Colour/purple"/>
+      <genEnumLiterals ecoreEnumLiteral="labour.ecore#//Colour/white"/>
+      <genEnumLiterals ecoreEnumLiteral="labour.ecore#//Colour/orange"/>
+      <genEnumLiterals ecoreEnumLiteral="labour.ecore#//Colour/pink"/>
+    </genEnums>
+    <genClasses ecoreClass="labour.ecore#//BoulderingWall">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//BoulderingWall/holds"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//BoulderingWall/routes"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//BoulderingWall/volumes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//BoulderingWall/ID"/>
+    </genClasses>
+    <genClasses ecoreClass="labour.ecore#//Hold">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Hold/identifier"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Hold/pos"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Hold/shape_identifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Hold/rotation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Hold/colours"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Hold/start_hold"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Hold/end_hold"/>
+    </genClasses>
+    <genClasses ecoreClass="labour.ecore#//Route">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Route/grade"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Route/identifier"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Route/grid_base_point"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Route/holds"/>
+    </genClasses>
+    <genClasses ecoreClass="labour.ecore#//Volume">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Volume/depth"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Volume/pos"/>
+    </genClasses>
+    <genClasses ecoreClass="labour.ecore#//Circle">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//Circle/radius"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Circle/side_holds"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Circle/front_holds"/>
+    </genClasses>
+    <genClasses ecoreClass="labour.ecore#//Triangle">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Triangle/corners"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Triangle/extrusion"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Triangle/left_holds"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Triangle/right_holds"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//Triangle/bottom_holds"/>
+    </genClasses>
+    <genClasses ecoreClass="labour.ecore#//Position"/>
+    <genClasses image="false" ecoreClass="labour.ecore#//RouteStep"/>
+    <genClasses ecoreClass="labour.ecore#//HoldStep">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//HoldStep/hold"/>
+    </genClasses>
+    <genClasses ecoreClass="labour.ecore#//SplitStep">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//SplitStep/left"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference labour.ecore#//SplitStep/right"/>
+    </genClasses>
+    <genClasses ecoreClass="labour.ecore#//AngularPosition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//AngularPosition/angle"/>
+    </genClasses>
+    <genClasses ecoreClass="labour.ecore#//CartesianPosition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//CartesianPosition/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute labour.ecore#//CartesianPosition/y"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,156 @@
+modeltype labour uses "http://www.example.org/labour";
+modeltype TURTLE uses "http://www.example.org/turtle";
+
+transformation labour2Turtle(in src : labour, out dst : TURTLE);
+
+main() {
+    src.rootObjects()[BoulderingWall]->map wallToProgram();
+}
+
+mapping BoulderingWall::wallToProgram() : Program {
+    self.routes->forEach(r) {
+    		statements += r.routeToStatements();
+    };
+}
+
+helper Position::posToAssignments() : Sequence(Assignment) {
+	var cPos := self.oclAsType(CartesianPosition);
+	return Sequence {
+		object Assignment {
+			_var := "x";
+			expr := object RealConst {
+				value := cPos.x;
+			}
+		},
+		object Assignment {
+			_var := "y";
+			expr := object RealConst {
+				value := cPos.y;
+			}
+		}
+	}
+}
+
+helper Route::routeToStatements() : Sequence(Statement) {
+	var res : Sequence(Statement) := Sequence {};
+	res += self.grid_base_point.posToAssignments();
+	
+	if (self.hasSplit()) {
+		// Slice the list to start at index 2 (skipping the first hold)
+		var leftPath := self.getLeftPath();
+		leftPath->forEach(h) {
+			res += h.holdToStatements();
+		};
+		
+		// Reset position back to the start for the right path
+		res += self.grid_base_point.oclAsType(CartesianPosition).generateMoveTo();
+		
+		var rightPath := self.getRightPath();
+		rightPath->forEach(h) {
+			res += h.holdToStatements();
+		}
+	} else {
+		// Generate statements for the single path
+		var leftPath := self.getLeftPath();
+		leftPath->forEach(h) {
+			res += h.holdToStatements();
+		}
+	};
+	
+	return res;
+}
+
+helper Route::getLeftPath() : Sequence(Hold) {
+    var path : Sequence(Hold) := Sequence {};
+
+    self.holds->forEach(step) {
+        if (step.oclIsKindOf(HoldStep)) {
+            path += step.oclAsType(HoldStep).hold;
+        } else {
+            path += step.oclAsType(SplitStep).left;
+        };
+    };
+
+    return path;
+}
+
+helper Route::getRightPath() : Sequence(Hold) {
+    var path : Sequence(Hold) := Sequence {};
+
+    self.holds->forEach(step) {
+        if (step.oclIsKindOf(HoldStep)) {
+            path += step.oclAsType(HoldStep).hold;
+        } else {
+            path += step.oclAsType(SplitStep).right;
+        };
+    };
+
+    return path;
+}
+
+helper Route::hasSplit() : Boolean {
+    return self.holds->exists(step | step.oclIsKindOf(SplitStep));
+}
+
+helper CartesianPosition::generateMoveTo() : Sequence(Statement) {
+	var res : Sequence(Statement) := Sequence {};
+	
+	res += object Assignment {
+		_var := "dx";
+		expr := object Binary {
+			operation := Operation::SUBTRACT;
+			left := object RealConst { value := self.x; };
+			right := object VarRef { _var := "x"; }
+		}
+	};
+	
+	res += object Assignment {
+		_var := "dy";
+		expr := object Binary {
+			operation := Operation::SUBTRACT;
+			left := object RealConst { value := self.y; };
+			right := object VarRef { _var := "y"; }
+		}
+	};
+
+	res += object Assignment {
+		_var := "theta";
+		expr := object Arctan {
+			expr := object Binary {
+				operation := Operation::DIVISION;
+				left := object VarRef { _var := "dx"; };
+				right := object VarRef { _var := "dy"; } 
+			}
+		}
+	};
+	
+	res += object TurnToZero {};
+	
+	res += object If {
+		cond := object Binary {
+			operation := Operation::LT;
+			left := object VarRef { _var := "theta"; };
+			right := object RealConst { value := 0; }
+		};
+		_then := object TurnLeft { expr := object Abs { expr := object VarRef { _var := "theta"; }; }; };
+		_else := object TurnRight { expr := object Abs { expr := object VarRef { _var := "theta"; }; }; }
+	};
+	
+	res += object Move {
+		expr := object Sqrt {
+			expr := object Binary {
+				operation := Operation::ADD;
+				left := object Sqr { expr := object VarRef { _var := "dx"; } };
+				right := object Sqr { expr := object VarRef { _var := "dy"; } };
+			}
+		} 
+	};
+	
+	res += self.posToAssignments();
+	
+	return res;
+}
+
+helper Hold::holdToStatements() : Sequence(Statement) {
+	return self.pos.oclAsType(CartesianPosition).generateMoveTo();
+}
